@@ -52,17 +52,10 @@ Other options:
 
 ---
 
-## Usage
 
 ### Client
 
 * Approach a crafting ped and interact (qb-target)
-* Or use the command (for testing):
-
-```txt
-/craft [StationName]
-```
-
 * NUI interface will open:
 
   * Select recipe
@@ -76,7 +69,6 @@ Other options:
 
 ![Crafting Interface](https://files.fivemerr.com/images/9af6013b-77d0-4d4d-814d-53b28be4a19c.png)
 
----
 ## Dependencies
 
 * [qb-core](https://github.com/qbcore-framework/qb-core)
@@ -87,7 +79,3 @@ Other options:
 ## *License*
 
 *MIT License – free to use, modify, and distribute. Please give credit if shared publicly.*
-
----
-
-##
