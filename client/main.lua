@@ -116,8 +116,6 @@ local function OpenCrafting(stationKey)
                 userMaterials = GetUserMaterials(stationKey),
                 xp = xp,
                 expPerLevel = Config.ExpPerLevel,
-                locale = locale,
-                tasks = Config.Tasks or {}
             }
         })
     end)
