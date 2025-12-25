@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html, body, #root {
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (max-width: 640px) {
+  /* Mobile phones - stack everything vertically */
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablets - adjust spacing */
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1920px) {
+  /* Standard desktop */
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1921px) and (max-width: 2560px) {
+  /* Large desktop */
+  html {
+    font-size: 17px;
+  }
+}
+
+/* Responsive adjustments for very large screens */
+@media (min-width: 2561px) {
+  /* 4K and ultra-wide displays */
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Ultra-wide support */
+@media (min-width: 3440px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* Ensure proper scaling on all devices */
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth scaling for all elements */
+img, svg {
+  max-width: 100%;
+  height: auto;
+}
