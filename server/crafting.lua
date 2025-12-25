@@ -65,8 +65,8 @@ RegisterNetEvent('crafting:giveItem', function(itemId, quantity)
 
     Player.Functions.AddItem(recipe.item, quantity)
     local gainedXP = Config.ExpPerCraft * quantity
-    Player.Functions.AddRep('craftingP', gainedXP)
-    local newXP = Player.Functions.GetRep('craftingP')
+    Player.Functions.AddRep('CraftingXP', gainedXP)
+    local newXP = Player.Functions.GetRep('CraftingXP')
     TriggerClientEvent('crafting:finishCraft', src, itemId, quantity, newXP)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[recipe.item], 'add')
 end)
