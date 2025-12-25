@@ -1,4 +1,5 @@
-# Code-Crafting for FiveM (QB-Core)
+# Code-Crafting for QB-Core (UI Created by [BLDR](https://bldr.chat))
+
 
 **A fully-featured crafting system for FiveM using QB-Core.**
 This resource allows players to craft items using configurable crafting stations, recipes, and XP progression. Includes NUI interface with progress bars 
