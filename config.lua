@@ -31,6 +31,8 @@ Config.CraftingStations = {
     WeaponWorkshop = {
         label = "Weapon Workshop",
         coords = vector4(979.48, -1722.12, 31.12, 79.14),
+        requiredJob = "police",
+        -- requiredGang = "vagos",
         recipes = {
             -- Weapons
             weapon_knife = {
