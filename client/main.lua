@@ -237,6 +237,8 @@ CreateThread(function()
                 {
                     icon = "fas fa-tools",
                     label = station.label,
+                    job = station.requiredJob,
+                    gang = station.requiredGang,
                     action = function()
                         OpenCrafting(key)
                     end
