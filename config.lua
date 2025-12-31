@@ -12,17 +12,17 @@ Config.CraftingCategories = {
     weapon = {
         id = "weapon",
         label = "Weapons",
-        icon = "wrench"
+        icon = "fas fa-gun"
     },
     tools = {
         id = "tools",
         label = "Tools",
-        icon = "wrench"
+        icon = "fas fa-wrench"
     },
     attachments = {
         id = "attachments",
         label = "Attachments",
-        icon = "puzzle-piece"
+        icon = "fas fa-puzzle-piece"
     }
 }
 
@@ -31,7 +31,7 @@ Config.CraftingStations = {
     WeaponWorkshop = {
         label = "Weapon Workshop",
         coords = vector4(979.48, -1722.12, 31.12, 79.14),
-        requiredJob = "police",
+        -- requiredJob = "police",
         -- requiredGang = "vagos",
         recipes = {
             -- Weapons

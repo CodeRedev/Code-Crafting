@@ -1,17 +1,10 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
---============================--
---  STATE
---============================--
-
 local isCraftingOpen = false
 local currentStation = nil
 local PlayerCraftingXP = 0
-
---============================--
---  UTIL / HELPERS
---============================--
-
+local default = GetConvar('ox:locale', 'en')
+local locales = lib.loadJson(('locales/%s'):format(default))
+--  UTIL 
 local function LoadModel(model)
     RequestModel(model)
     while not HasModelLoaded(model) do
@@ -92,9 +85,6 @@ local function GetUserMaterials(stationKey)
     return materials
 end
 
---============================--
---  UI OPEN / CLOSE
---============================--
 
 local function OpenCrafting(stationKey)
     local station = Config.CraftingStations[stationKey]
@@ -103,6 +93,11 @@ local function OpenCrafting(stationKey)
     currentStation = stationKey
     isCraftingOpen = true
     SetNuiFocus(true, true)
+
+    SendNUIMessage({
+        type = "setTranslations",
+        translations = locales,
+    })
 
     GetPlayerCraftingXP(function(xp)
         SendNUIMessage({ type = 'openCrafting' })
@@ -121,6 +116,7 @@ local function OpenCrafting(stationKey)
     end)
 end
 
+
 local function CloseCrafting()
     isCraftingOpen = false
     currentStation = nil
@@ -129,9 +125,7 @@ local function CloseCrafting()
     SendNUIMessage({ type = 'closeCrafting' })
 end
 
---============================--
 --  NUI CALLBACKS
---============================--
 
 RegisterNUICallback('craft:close', function(_, cb)
     CloseCrafting()
@@ -183,9 +177,7 @@ RegisterNUICallback('craft:start', function(data, cb)
     cb({ success = true })
 end)
 
---============================--
 --  SERVER EVENTS
---============================--
 
 RegisterNetEvent('crafting:finishCraft', function(itemId, quantity, newXP)
     PlayerCraftingXP = newXP
@@ -217,9 +209,7 @@ RegisterNetEvent('crafting:finishCraft', function(itemId, quantity, newXP)
     })
 end)
 
---============================--
 --  PED / TARGET
---============================--
 
 CreateThread(function()
     for key, station in pairs(Config.CraftingStations) do
@@ -248,10 +238,6 @@ CreateThread(function()
         })
     end
 end)
-
---============================--
---  SAFETY
---============================--
 
 AddEventHandler('onResourceStop', function(res)
     if res == GetCurrentResourceName() and isCraftingOpen then

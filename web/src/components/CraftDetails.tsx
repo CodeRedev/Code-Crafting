@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 
 interface Material {
   name: string;
@@ -36,7 +37,8 @@ export default function CraftDetails({
   craftQuantity = 1,
   onQuantityChange = () => {},
 }: CraftDetailsProps) {
-  // Check if user meets level and has enough materials for the selected quantity
+  const { t } = useTranslation();
+
   const canCraft =
     userLevel >= item.levelRequired &&
     item.materials.every(
@@ -46,41 +48,38 @@ export default function CraftDetails({
   const hasLevel = userLevel >= item.levelRequired;
 
   return (
-    <div className="flex flex-col gap-4 h-full bg-zinc-800/30 rounded-lg p-5 overflow-y-auto">
+    <div className="flex flex-col gap-4 h-full bg-zinc-800/30 rounded-lg p-5 overflow-y-auto custom-scrollbar" >
       {/* Item Header */}
       <div className="flex flex-col gap-3">
-        <div className="relative h-32 rounded-lg overflow-hidden bg-zinc-800 flex items-center justify-center">
+        <div className="relative h-32 rounded-lg overflow-hidden bg-zinc-800/60 flex items-center justify-center">
           <img src={item.image} alt={item.name} className="w-24 h-24 object-cover" />
         </div>
 
         <div>
           <h3 className="text-lg font-bold text-zinc-100">{item.name}</h3>
-          <p className="text-xs text-zinc-400 mt-2">
-            {item.category.charAt(0).toUpperCase() + item.category.slice(1)} Component
-          </p>
         </div>
       </div>
 
       {/* Level Requirement */}
       <div className="px-3 py-2 bg-zinc-900/40 rounded flex items-center justify-between">
-        <span className="text-xs font-semibold text-zinc-300">LEVEL REQUIRED</span>
+        <span className="text-xs font-semibold text-zinc-300">{t('level_required')}</span>
         <div className="flex items-center gap-2">
           <span className={`text-sm font-bold ${hasLevel ? 'text-gray-400' : 'text-red-400'}`}>
             {item.levelRequired}
           </span>
-          {!hasLevel && <span className="text-xs text-red-400 font-semibold">TOO LOW</span>}
+          {!hasLevel && <span className="text-xs text-red-400 font-semibold">{t('too_low')}</span>}
         </div>
       </div>
 
       {/* Craft Time */}
       <div className="px-3 py-2 bg-zinc-900/40 rounded flex items-center justify-between">
-        <span className="text-xs font-semibold text-zinc-300">CRAFT TIME</span>
+        <span className="text-xs font-semibold text-zinc-300">{t('craft_time')}</span>
         <span className="text-sm font-mono text-gray-400">{item.craftTime * craftQuantity}s</span>
       </div>
 
       {/* Quantity */}
       <div className="px-3 py-2 bg-zinc-900/40 rounded flex items-center justify-between">
-        <span className="text-xs font-semibold text-zinc-300">QUANTITY</span>
+        <span className="text-xs font-semibold text-zinc-300">{t('quantity')}</span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => onQuantityChange(Math.max(1, craftQuantity - 1))}
@@ -102,7 +101,7 @@ export default function CraftDetails({
 
       {/* Materials Section */}
       <div className="flex flex-col gap-3">
-        <h4 className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Required Materials</h4>
+        <h4 className="text-xs font-bold text-zinc-300 uppercase tracking-wider">{t('required_materials')}</h4>
         <div className="flex flex-col gap-2">
           {item.materials.map((material) => {
             const owned = userMaterials[material.name] || 0;
@@ -111,12 +110,10 @@ export default function CraftDetails({
 
             return (
               <div key={material.name} className="flex items-center gap-2">
-                {/* Material Image */}
                 <div className="w-10 h-10 rounded overflow-hidden bg-zinc-800 flex-shrink-0">
                   <img src={material.image} alt={material.name} className="w-full h-full object-cover" />
                 </div>
 
-                {/* Material Info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-zinc-200 truncate">{material.name}</p>
                   <p className={`text-xs font-mono mt-0.5 ${hasEnough ? 'text-gray-400' : 'text-red-400'}`}>
@@ -124,7 +121,6 @@ export default function CraftDetails({
                   </p>
                 </div>
 
-                {/* Status Indicator */}
                 <div
                   className="w-2 h-2 rounded-full flex-shrink-0"
                   style={{
@@ -160,10 +156,10 @@ export default function CraftDetails({
           }`}
         >
           {!hasLevel
-            ? `LEVEL ${item.levelRequired} REQUIRED`
+            ? `${t('level_required')} ${item.levelRequired}`
             : !item.materials.every((mat) => (userMaterials[mat.name] || 0) >= mat.quantity * craftQuantity)
-            ? 'INSUFFICIENT MATERIALS'
-            : 'CRAFT ITEM'}
+            ? t('insufficient_materials')
+            : t('craft_item')}
         </button>
       )}
     </div>

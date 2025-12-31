@@ -1,15 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faGear,
-  faWrench,
-  faPuzzlePiece,
-  faBox
-} from '@fortawesome/free-solid-svg-icons';
 
 interface Category {
   id: string;
   label: string;
-  icon?: string;
+  icon?: string; // example: "fa-solid fa-gear"
 }
 
 interface CategoryNavProps {
@@ -20,12 +13,9 @@ interface CategoryNavProps {
 
 /* ================= Icon Map ================= */
 
-const ICON_MAP: Record<string, any> = {
-  gear: faGear,
-  wrench: faWrench,
-  'puzzle-piece': faPuzzlePiece,
-  default: faBox,
-};
+
+const DEFAULT_ICON = 'fa-solid fa-box';
+
 
 export default function CategoryNav({
   categories,
@@ -40,8 +30,7 @@ export default function CategoryNav({
 
       <div className="flex flex-col gap-3 items-center">
         {categories.map((category) => {
-          const icon =
-            ICON_MAP[category.icon ?? 'default'] || ICON_MAP.default;
+          const icon = category.icon ?? DEFAULT_ICON;
 
           return (
             <button
@@ -50,13 +39,12 @@ export default function CategoryNav({
               title={category.label}
               className={`w-16 h-16 rounded-lg flex items-center justify-center transition-all duration-300 ${
                 selectedCategory === category.id
-                  ? 'bg-gray-500/30 shadow-lg shadow-gray-500/10'
+                  ? 'bg-zinc-100/30 shadow-lg shadow-gray-500/10'
                   : 'bg-zinc-800/40 hover:bg-zinc-800/60 hover:shadow-lg hover:shadow-gray-500/30'
               }`}
             >
-              <FontAwesomeIcon
-                icon={icon}
-                className="text-xl text-white transition-all duration-300 hover:scale-110"
+              <i
+                className={`${icon} text-xl text-white transition-all duration-300 hover:scale-110`}
               />
             </button>
           );
@@ -65,3 +53,4 @@ export default function CategoryNav({
     </div>
   );
 }
+

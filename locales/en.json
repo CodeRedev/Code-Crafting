@@ -1,0 +1,12 @@
+{
+  "level_required": "Level",
+  "too_low": "Too Low",
+  "craft_time": "Craft Time",
+  "quantity": "Quantity",
+  "required_materials": "Required Materials",
+  "craft_item": "Craft Item",
+  "insufficient_materials": "Insufficient Materials",
+  "experience": "Experience",
+  "view_details": "View Details"
+
+}

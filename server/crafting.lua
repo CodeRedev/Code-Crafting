@@ -10,9 +10,8 @@ QBCore.Functions.CreateCallback('crafting:getXP', function(source, cb)
     cb(xp)
 end)
 
--- =========================
 -- Helper
--- =========================
+
 local function GetRecipeByItemId(itemId)
     for _, station in pairs(Config.CraftingStations) do
         if station.recipes[itemId] then
@@ -22,9 +21,8 @@ local function GetRecipeByItemId(itemId)
     return nil
 end
 
--- =========================
 -- Crafting Event
--- =========================
+
 RegisterNetEvent('crafting:giveItem', function(itemId, quantity)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)

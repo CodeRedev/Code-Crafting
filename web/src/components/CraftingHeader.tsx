@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 
 interface CraftingHeaderProps {
   level: number;
@@ -7,8 +8,10 @@ interface CraftingHeaderProps {
 }
 
 export default function CraftingHeader({ level, xp, xpPercentage, stationLabel }: CraftingHeaderProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="bg-zinc-900/50 px-6 py-4">
+    <div className="bg-zinc-900/80 px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-zinc-800/30 rounded-lg flex items-center justify-center shadow-lg border border-zinc-800/30">
@@ -24,7 +27,7 @@ export default function CraftingHeader({ level, xp, xpPercentage, stationLabel }
         {/* XP Progress Bar - Middle */}
         <div className="flex flex-col gap-1.5 flex-1 mx-8">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-semibold text-zinc-300">EXPERIENCE</p>
+            <p className="text-xs font-semibold text-zinc-300">{t('experience')}</p>
             <p className="text-xs text-gray-400 font-mono">{xp.toLocaleString()} / 1000 XP</p>
           </div>
           <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">

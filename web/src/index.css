@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Scrollbar hiding */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 163, 163, 0.9);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 163, 163, 0.9);
+}
+
+
 
 html, body, #root {
   background-color: transparent;

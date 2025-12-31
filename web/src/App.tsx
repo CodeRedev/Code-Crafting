@@ -3,6 +3,7 @@ import CraftingHeader from './components/CraftingHeader';
 import CategoryNav from './components/CategoryNav';
 import CraftingGrid from './components/CraftingGrid';
 import CraftDetails from './components/CraftDetails';
+import i18n from "./store/i18n";
 
 interface CraftItem {
   id: string;
@@ -100,6 +101,19 @@ const App: React.FC = () => {
   const [categories, setCategories] = useState<Array<{ id: string; label: string }>>([]);
   const [stationLabel, setStationLabel] = useState('');
 
+  useEffect(() => {
+  const handler = (event: MessageEvent) => {
+    if (event.data?.type === "setTranslations") {
+      const translations = event.data.translations;
+      i18n.addResourceBundle(i18n.language, "translation", translations, true, true);
+      i18n.changeLanguage(i18n.language);
+    }
+  };
+  window.addEventListener("message", handler);
+  return () => window.removeEventListener("message", handler);
+}, []);
+
+
   /* ================= FiveM Messages ================= */
 
   useEffect(() => {
@@ -112,11 +126,9 @@ const App: React.FC = () => {
         case 'openCrafting':
           setIsOpen(true);
           break;
-
         case 'closeCrafting':
           setIsOpen(false);
           break;
-
         case 'updateUI':
           if (data.items) setCraftItems(data.items);
           if (data.categories) setCategories(data.categories);
@@ -125,7 +137,6 @@ const App: React.FC = () => {
           if (data.expPerLevel) setExpPerLevel(data.expPerLevel);
           if (data.stationLabel) setStationLabel(data.stationLabel); // new
           break;
-
         case 'craftingProgress':
           setCraftProgress(data.progress);
           if (data.progress >= 100) {
@@ -161,13 +172,11 @@ const App: React.FC = () => {
         setIsOpen(false);
       }
     };
-
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   /* ================= Request Data ================= */
-
   useEffect(() => {
     if (!isBrowser) {
       fetchNui('craft:requestData');
@@ -175,10 +184,8 @@ const App: React.FC = () => {
   }, []);
 
   /* ================= Craft ================= */
-
   const handleCraft = () => {
     if (!selectedItem || isCrafting) return;
-
     setIsCrafting(true);
     setCraftProgress(0);
 
@@ -195,13 +202,11 @@ const App: React.FC = () => {
       ? craftItems
       : craftItems.filter((i) => i.category === selectedCategory);
       
-      // Sort by level required ascending, then by name
   const sortedItems = filteredItems.sort((a, b) => {
-  if (a.levelRequired !== b.levelRequired) return a.levelRequired - b.levelRequired;
+     if (a.levelRequired !== b.levelRequired) return a.levelRequired - b.levelRequired;
       return a.name.localeCompare(b.name);
   });
 
-  // Calculate current level
   const playerLevel = Math.floor(craftingXP / expPerLevel) + 1;
   const xpIntoLevel = craftingXP % expPerLevel;
   const xpPercentage = (xpIntoLevel / expPerLevel) * 100;
@@ -209,7 +214,7 @@ const App: React.FC = () => {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-black/80">
-      <div className="w-[90vw] max-w-7xl h-[85vh] bg-gradient-to-br from-zinc-950 to-zinc-900 rounded-2xl overflow-hidden flex flex-col">
+      <div className="w-[90vw] max-w-7xl h-[85vh] bg-gradient-to-br bg-zinc-900/80 rounded-2xl overflow-hidden flex flex-col">
         <CraftingHeader level={playerLevel} xp={xpIntoLevel} xpPercentage={xpPercentage} stationLabel={stationLabel} />
 
         <div className="flex flex-1 gap-6 p-6 overflow-hidden">
@@ -227,7 +232,7 @@ const App: React.FC = () => {
               selectedItemId={selectedItem?.id}
               onSelectItem={(item) => {
                 setSelectedItem(item);
-                setCraftQuantity(1); // reset quantity whenever a new item is selected
+                setCraftQuantity(1);
               }}
             />
           </div>
