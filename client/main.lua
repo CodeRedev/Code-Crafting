@@ -2,6 +2,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local isCraftingOpen = false
 local currentStation = nil
 local PlayerCraftingXP = 0
+local ItemImages = {}
+local ItemLabels = {}
 local default = GetConvar('ox:locale', 'en')
 local locales = lib.loadJson(('locales/%s'):format(default))
 --  UTIL 
@@ -12,6 +14,22 @@ local function LoadModel(model)
     end
 end
 
+for itemName, itemData in pairs(QBCore.Shared.Items) do
+    if itemData and itemData.image then
+        ItemImages[itemName] = Config.InventoryImagePath .. itemData.image
+    end
+end
+
+for itemName, itemData in pairs(QBCore.Shared.Items) do
+    if itemData and itemData.label then
+        ItemLabels[itemName] = itemData.label
+    end
+end
+
+local function GetItemLabel(item)
+    return ItemLabels[item] or item:gsub("_", " ")
+end
+
 local function BuildCraftItems(station)
     local items = {}
 
@@ -20,17 +38,17 @@ local function BuildCraftItems(station)
 
         for material, amount in pairs(recipe.requirements) do
             materials[#materials + 1] = {
-                name = material,
+                name = GetItemLabel(material),
                 quantity = amount,
-                image = Config.InventoryImagePath .. material .. ".png"
+                image = ItemImages[material]
             }
         end
 
         items[#items + 1] = {
             id = id,
-            name = recipe.item:gsub("_", " "):upper(),
+            name = GetItemLabel(recipe.item),
             category = recipe.category,
-            image = Config.InventoryImagePath .. recipe.item .. ".png",
+            image = ItemImages[recipe.item],
             levelRequired = recipe.requiredLevel,
             craftTime = recipe.craftTime,
             materials = materials
