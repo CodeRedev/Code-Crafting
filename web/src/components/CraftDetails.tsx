@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 interface Material {
   name: string;
+  label?: string;
   quantity: number;
   image: string;
 }
@@ -115,7 +116,7 @@ export default function CraftDetails({
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-zinc-200 truncate">{material.name}</p>
+                  <p className="text-xs font-semibold text-zinc-200 truncate">{material.label}</p>
                   <p className={`text-xs font-mono mt-0.5 ${hasEnough ? 'text-gray-400' : 'text-red-400'}`}>
                     {owned}/{required}
                   </p>

@@ -38,7 +38,8 @@ local function BuildCraftItems(station)
 
         for material, amount in pairs(recipe.requirements) do
             materials[#materials + 1] = {
-                name = GetItemLabel(material),
+                name = material,
+                label = GetItemLabel(material),
                 quantity = amount,
                 image = ItemImages[material]
             }
@@ -46,7 +47,8 @@ local function BuildCraftItems(station)
 
         items[#items + 1] = {
             id = id,
-            name = GetItemLabel(recipe.item),
+            name = recipe.item,
+            label = GetItemLabel(recipe.item),
             category = recipe.category,
             image = ItemImages[recipe.item],
             levelRequired = recipe.requiredLevel,
