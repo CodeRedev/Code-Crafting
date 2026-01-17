@@ -1,15 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-QBCore.Functions.CreateCallback('crafting:getXP', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then
-        return cb(0)
-    end
-
-    local xp = Player.Functions.GetRep('CraftingXP') or 0
-    cb(xp)
-end)
-
 -- Helper
 
 local function GetRecipeByItemId(itemId)
@@ -20,6 +10,33 @@ local function GetRecipeByItemId(itemId)
     end
     return nil
 end
+
+local function GetCraftingXP(Player)
+    if Config.UseNewQBCoreRep then
+        return Player.Functions.GetRep('CraftingXP') or 0
+    else
+        return Player.PlayerData.metadata['CraftingXP'] or 0
+    end
+end
+
+local function AddCraftingXP(Player, amount)
+    if Config.UseNewQBCoreRep then
+        Player.Functions.AddRep('CraftingXP', amount)
+    else
+        local currentXP = Player.PlayerData.metadata['CraftingXP'] or 0
+        Player.Functions.SetMetaData('CraftingXP', currentXP + amount)
+    end
+end
+
+-- Callbacks
+
+QBCore.Functions.CreateCallback('crafting:getXP', function(source, cb)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return cb(0) end
+
+    cb(GetCraftingXP(Player))
+end)
+
 
 -- Crafting Event
 
@@ -57,14 +74,14 @@ RegisterNetEvent('crafting:giveItem', function(itemId, quantity)
         for item, amount in pairs(removedItems) do
             Player.Functions.AddItem(item, amount)
         end
-        TriggerClientEvent('QBCore:Notify',src,'Crafting failed (missing materials)','error')
+        TriggerClientEvent('QBCore:Notify', src, 'Crafting failed (missing materials)','error')
         return
     end
 
     Player.Functions.AddItem(recipe.item, quantity)
     local gainedXP = Config.ExpPerCraft * quantity
-    Player.Functions.AddRep('CraftingXP', gainedXP)
-    local newXP = Player.Functions.GetRep('CraftingXP')
+    AddCraftingXP(Player, gainedXP)
+    local newXP = GetCraftingXP(Player)
     TriggerClientEvent('crafting:finishCraft', src, itemId, quantity, newXP)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[recipe.item], 'add')
 end)

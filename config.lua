@@ -5,7 +5,7 @@ Config.InventoryImagePath = "nui://qb-inventory/html/images/"
 -- Experience and progression
 Config.ExpPerCraft = 50         -- XP gained per craft
 Config.ExpPerLevel = 1000       -- XP needed per level
-
+Config.UseNewQBCoreRep = true   -- true  = New QBCore (GetRep / AddRep) , false = Old QBCore (metadata / SetMetaData)
 
 -- Crafting categories
 Config.CraftingCategories = {
